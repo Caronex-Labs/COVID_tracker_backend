@@ -51,25 +51,25 @@ class User(AbstractUser):
     username = None
     user_id = models.AutoField(primary_key=True)
     email = models.EmailField(unique=True)
-    age = models.IntegerField(blank=True)
+    age = models.IntegerField(blank=True, null=True)
     gender = models.CharField(max_length=100, blank=True, choices=(
         ('Male', 'Male'),
         ('Female', 'Female'),
         ('Other', 'Other'),
         ('Rather not say', 'Rather not say'),
-    ))
-    height = models.IntegerField(blank=True)
-    weight = models.IntegerField(blank=True)
-    blood_pressure = models.BooleanField(default=False)
-    diabetes = models.BooleanField(default=False)
-    obesity = models.BooleanField(default=False)
-    heart_issues = models.BooleanField(default=False)
-    on_immunosuppressents = models.BooleanField(default=False)
-    kidney_liver_lung_disease = models.BooleanField(default=False)
-    contact_with_positive = models.BooleanField(default=False)
-    contact_date = models.DateField(blank=True)
-    quarantine = models.BooleanField(default=False)
-    onboarding_complete = models.BooleanField(default=False)
+    ), null=True)
+    height = models.IntegerField(blank=True, null=True)
+    weight = models.IntegerField(blank=True, null=True)
+    blood_pressure = models.BooleanField(default=False, null=True)
+    diabetes = models.BooleanField(default=False, null=True)
+    obesity = models.BooleanField(default=False, null=True)
+    heart_issues = models.BooleanField(default=False, null=True)
+    on_immunosuppressents = models.BooleanField(default=False, null=True)
+    kidney_liver_lung_disease = models.BooleanField(default=False, null=True)
+    contact_with_positive = models.BooleanField(default=False, null=True)
+    contact_date = models.DateField(blank=True, null=True)
+    quarantine = models.BooleanField(default=False, null=True)
+    onboarding_complete = models.BooleanField(default=False, null=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name']
@@ -81,3 +81,31 @@ class User(AbstractUser):
 
     def is_owner(self, user):
         return self.email == user.email
+
+
+class Daily(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='daily_records')
+    date = models.DateField()
+
+    dry_cough = models.BooleanField(default=False)
+    dry_cough_frequency = models.IntegerField(blank=True, null=True)
+    sore_throat = models.BooleanField(default=False)
+    body_ache = models.BooleanField(default=False)
+    body_ache_intensity = models.IntegerField(blank=True, null=True)
+    head_ache = models.BooleanField(default=False)
+    head_ache_intensity = models.IntegerField(blank=True, null=True)
+    weakness = models.BooleanField(default=False)
+    anosmia = models.BooleanField(default=False)
+    ageusia = models.BooleanField(default=False)
+    diarrhoea = models.BooleanField(default=False)
+    diarrhoea_frequency = models.IntegerField(blank=True, null=True)
+    temperature_morning = models.IntegerField(blank=True, null=True)
+    temperature_evening = models.IntegerField(blank=True, null=True)
+    spo2 = models.IntegerField(blank=True, null=True)
+    appetite_level = models.IntegerField(blank=True, null=True)
+    abnormal_medical_reports = models.BooleanField(default=False)
+    report = models.URLField(blank=True, null=True)
+    difficulty_breathing = models.BooleanField(default=False)
+    covid_test = models.BooleanField(default=False)
+    covid_test_outcome = models.BooleanField(default=False)
+

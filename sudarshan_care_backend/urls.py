@@ -18,7 +18,7 @@ from allauth.account.views import ConfirmEmailView as AllauthConfirmEmailView
 # Django Imports
 from django.contrib import admin
 from django.http import HttpResponse
-from django.urls import path, re_path
+from django.urls import path, re_path, include
 # Auto Documentation
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
@@ -31,6 +31,8 @@ from rest_auth.views import (
 from rest_framework import permissions
 
 # Setup for Swagger Documentation
+from users_module.router import UserAppRouter
+
 schema_view = get_schema_view(
     openapi.Info(
         title="Snippets API",
@@ -79,4 +81,9 @@ urlpatterns = [
             name='account_confirm_email'),
 
     # Documentation Endpoints
-    path('docs/', schema_view.with_ui('swagger', cache_timeout=0), name='documentation')]
+    path('docs/', schema_view.with_ui('swagger', cache_timeout=0), name='documentation'),
+
+    # App Routes
+    path('', include(UserAppRouter.urls), name="UsersApp")
+
+]

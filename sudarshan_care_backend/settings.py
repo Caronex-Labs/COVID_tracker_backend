@@ -199,7 +199,7 @@ ACCOUNT_USERNAME_REQUIRED = False
 OLD_PASSWORD_FIELD_ENABLED = True
 
 # Choose whether email verification is required before login is allowed. Other options are: 'optional' ,
-ACCOUNT_EMAIL_VERIFICATION = False
+ACCOUNT_EMAIL_VERIFICATION = "none"
 
 # Ensure that the following two settings point to the frontend's Login route. This is to redirect the user after
 # successful email confirmations and such.
