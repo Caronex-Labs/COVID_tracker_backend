@@ -1,1 +1,1 @@
-web: gunicorn DRF_Boilerplate.wsgi
+web: gunicorn sudarshan_care_backend.wsgi

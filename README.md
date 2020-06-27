@@ -25,7 +25,7 @@
 1. On the Github Repository of this project, you'll find an option to `Use this template` on the top right.
 2. Follow the prompts to create your new repository using this one as a template.
 3. Clone your new repository to your local system.
-4. After opening your new project inside a text editor or IDE, perform a `global search and replace` on the whole project for the phrase `DRF_Boilerplate` and change it to the name of your new project. 
+4. After opening your new project inside a text editor or IDE, perform a `global search and replace` on the whole project for the phrase `sudarshan_care_backend` and change it to the name of your new project. 
 5. Then change the name of the main app to the name of your project. 
 6. Delete your editor config files and restart your IDE. For more detailed instructions, look up '*How to change Django project name*' and follow along.   
 7. Create your virtual environment and install all requirements with `pip install -r requirements.txt`
