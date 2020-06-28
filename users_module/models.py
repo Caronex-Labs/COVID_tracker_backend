@@ -70,6 +70,7 @@ class User(AbstractUser):
     contact_date = models.DateField(blank=True, null=True)
     quarantine = models.BooleanField(default=False, null=True)
     onboarding_complete = models.BooleanField(default=False, null=True)
+    test_done = models.BooleanField(default=False)
     covid_test = models.BooleanField(default=False)
     covid_test_outcome = models.BooleanField(default=False)
 
