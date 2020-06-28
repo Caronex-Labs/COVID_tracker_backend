@@ -1,3 +1,4 @@
+from phonenumber_field.serializerfields import PhoneNumberField
 from rest_auth.registration.serializers import RegisterSerializer
 from rest_auth.serializers import LoginSerializer
 from rest_framework import serializers
@@ -9,19 +10,22 @@ from users_module.models import User, Daily
 
 class CustomLoginSerializer(LoginSerializer):
     username = None
-    email = serializers.EmailField(required=True)
+    email = None
+    phone = PhoneNumberField(required=True)
     password = serializers.CharField(style={'input_type': 'password'})
 
 
 class CustomRegisterSerializer(RegisterSerializer):
     username = None
+    email = None
+    phone = PhoneNumberField(required=True)
     first_name = serializers.CharField(max_length=100)
     last_name = serializers.CharField(max_length=100)
 
     def get_cleaned_data(self):
         return {
             'password1': self.validated_data.get('password1', ''),
-            'email': self.validated_data.get('email', ''),
+            'phone': self.validated_data.get('phone', ''),
             'first_name': self.validated_data.get('first_name', ''),
             'last_name': self.validated_data.get('last_name', ''),
         }
@@ -31,7 +35,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         exclude = ['password']
-        read_only_fields = ['email', 'user_id', 'is_superuser', 'is_staff', 'is_active', 'date_joined', 'last_login',
+        read_only_fields = ['phone', 'user_id', 'is_superuser', 'is_staff', 'is_active', 'date_joined', 'last_login',
                             'groups', 'user_permissions']
 
 

@@ -14,7 +14,7 @@ class UserAdmin(BaseUserAdmin):
     """Define admin model for custom User model with no email field."""
 
     fieldsets = (
-        (None, {'fields': ('email', 'password')}),
+        (None, {'fields': ('phone', 'password')}),
         (_('Personal info'), {'fields': ('first_name', 'last_name', 'age', 'gender', 'height', 'weight')}),
         (_('Medical history'), {'fields': (
             'blood_pressure', 'diabetes', 'obesity', 'heart_issues', 'on_immuno_suppressants',
@@ -29,13 +29,13 @@ class UserAdmin(BaseUserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('email', 'password1', 'password2', 'first_name', 'last_name'),
+            'fields': ('phone', 'password1', 'password2', 'first_name', 'last_name'),
         }),
     )
     list_filter = ('groups',)
-    list_display = ('email', 'first_name', 'last_name')
-    search_fields = ('email', 'first_name', 'last_name')
-    ordering = ('email',)
+    list_display = ('phone', 'first_name', 'last_name')
+    search_fields = ('phone', 'first_name', 'last_name')
+    ordering = ('phone',)
 
 
 admin.site.register(Daily)
