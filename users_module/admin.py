@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.utils.translation import ugettext_lazy as _
 
-from users_module.models import User
+from users_module.models import User, Daily
 
 
 # Register your models here.
@@ -36,3 +36,6 @@ class UserAdmin(BaseUserAdmin):
     list_display = ('email', 'first_name', 'last_name')
     search_fields = ('email', 'first_name', 'last_name')
     ordering = ('email',)
+
+
+admin.site.register(Daily)
