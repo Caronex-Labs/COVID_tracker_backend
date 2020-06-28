@@ -7,9 +7,9 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
-from sudarshan_care_backend.permissions import IsOwner
+from sudarshan_care_backend.permissions import IsOwner, IsStaff
 from users_module.models import User, Daily
-from users_module.serializers import UserProfileSerializer, UserDailySerializer
+from users_module.serializers import UserProfileSerializer, UserDailySerializer, UserDetailSerializer
 
 
 class MeFunctionMixin:
@@ -33,6 +33,8 @@ UserViewSetSerializers = {
     'profile': UserProfileSerializer,
     'daily': UserDailySerializer,
     'reports': UserDailySerializer,
+    'all': UserProfileSerializer,
+    'info': UserDetailSerializer
 }
 
 
@@ -76,3 +78,18 @@ class UserViewSet(MeFunctionMixin, GenericViewSet):
         except Exception as e:
             print(e)
             return Response({"message": "No daily reports found for this user."}, status=404)
+
+    @action(methods=['get'], detail=False, permission_classes=[IsAuthenticated, IsStaff])
+    def all(self, request):
+        serializer = self.get_serializer_class()
+        users = User.objects.filter(is_staff=False, is_superuser=False)
+        data = serializer(users, many=True).data
+        return Response(data, status=200)
+
+    @action(methods=['get'], detail=True, permission_classes=[IsAuthenticated, IsStaff])
+    def info(self, request, **kwargs):
+        serializer = self.get_serializer_class()
+        user = self.get_object()
+        data = serializer(user).data
+        return Response(data, status=200)
+

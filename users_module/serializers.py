@@ -39,3 +39,12 @@ class UserDailySerializer(serializers.ModelSerializer):
     class Meta:
         model = Daily
         fields = '__all__'
+
+
+class UserDetailSerializer(serializers.ModelSerializer):
+
+    daily_records = UserDailySerializer(many=True)
+
+    class Meta:
+        model = User
+        exclude = ['password']
