@@ -17,7 +17,7 @@ class UserAdmin(BaseUserAdmin):
         (None, {'fields': ('email', 'password')}),
         (_('Personal info'), {'fields': ('first_name', 'last_name', 'age', 'gender', 'height', 'weight')}),
         (_('Medical history'), {'fields': (
-            'blood_pressure', 'diabetes', 'obesity', 'heart_issues', 'on_immunosuppressents',
+            'blood_pressure', 'diabetes', 'obesity', 'heart_issues', 'on_immuno_suppressants',
             'kidney_liver_lung_disease',
             'contact_with_positive', 'contact_date', 'quarantine')}),
         (_('Status'), {'fields': ('onboarding_complete',)}),
