@@ -70,6 +70,8 @@ class User(AbstractUser):
     contact_date = models.DateField(blank=True, null=True)
     quarantine = models.BooleanField(default=False, null=True)
     onboarding_complete = models.BooleanField(default=False, null=True)
+    covid_test = models.BooleanField(default=False)
+    covid_test_outcome = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name']
@@ -106,6 +108,5 @@ class Daily(models.Model):
     abnormal_medical_reports = models.BooleanField(default=False)
     report = models.URLField(blank=True, null=True)
     difficulty_breathing = models.BooleanField(default=False)
-    covid_test = models.BooleanField(default=False)
-    covid_test_outcome = models.BooleanField(default=False)
+
 
