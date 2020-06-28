@@ -31,7 +31,8 @@ class MeFunctionMixin:
 
 UserViewSetSerializers = {
     'profile': UserProfileSerializer,
-    'daily': UserDailySerializer
+    'daily': UserDailySerializer,
+    'reports': UserDailySerializer,
 }
 
 
@@ -44,7 +45,7 @@ class UserViewSet(MeFunctionMixin, GenericViewSet):
     def get_serializer_class(self):
         return UserViewSetSerializers.get(self.action)
 
-    @action(methods=['get', 'patch'], detail=False)
+    @action(methods=['get', 'patch'], detail=False, permission_classes=[IsAuthenticated, IsOwner])
     def daily(self, request):
 
         serializer = self.get_serializer_class()
@@ -64,3 +65,14 @@ class UserViewSet(MeFunctionMixin, GenericViewSet):
             except Exception as e:
                 print(e)
                 return Response({'message': "Error creating daily report"}, status=400)
+
+    @action(methods=['get'], detail=False, permission_classes=[IsAuthenticated, IsOwner])
+    def reports(self, request):
+        try:
+            reports = Daily.objects.filter(user=request.user)
+            serializer = self.get_serializer_class()
+            data = serializer(reports, many=True).data
+            return Response(data, status=200)
+        except Exception as e:
+            print(e)
+            return Response({"message": "No daily reports found for this user."}, status=404)
