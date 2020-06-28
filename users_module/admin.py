@@ -20,6 +20,7 @@ class UserAdmin(BaseUserAdmin):
             'blood_pressure', 'diabetes', 'obesity', 'heart_issues', 'on_immuno_suppressants',
             'kidney_liver_lung_disease',
             'contact_with_positive', 'contact_date', 'quarantine')}),
+        (_('COVID Medical Status'), {'fields': ('test_done', 'report_received', 'covid_test_outcome')}),
         (_('Status'), {'fields': ('onboarding_complete',)}),
         (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
                                        'groups', 'user_permissions')}),

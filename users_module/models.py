@@ -71,7 +71,7 @@ class User(AbstractUser):
     quarantine = models.BooleanField(default=False, null=True)
     onboarding_complete = models.BooleanField(default=False, null=True)
     test_done = models.BooleanField(default=False)
-    covid_test = models.BooleanField(default=False)
+    report_received = models.BooleanField(default=False)
     covid_test_outcome = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'
