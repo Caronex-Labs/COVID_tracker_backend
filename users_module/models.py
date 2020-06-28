@@ -64,7 +64,7 @@ class User(AbstractUser):
     diabetes = models.BooleanField(default=False, null=True)
     obesity = models.BooleanField(default=False, null=True)
     heart_issues = models.BooleanField(default=False, null=True)
-    on_immunosuppressents = models.BooleanField(default=False, null=True)
+    on_immuno_suppressants = models.BooleanField(default=False, null=True)
     kidney_liver_lung_disease = models.BooleanField(default=False, null=True)
     contact_with_positive = models.BooleanField(default=False, null=True)
     contact_date = models.DateField(blank=True, null=True)
