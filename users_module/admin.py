@@ -21,7 +21,7 @@ class UserAdmin(BaseUserAdmin):
             'kidney_liver_lung_disease',
             'contact_with_positive', 'contact_date', 'quarantine')}),
         (_('COVID Medical Status'), {'fields': ('test_done', 'report_received', 'covid_test_outcome')}),
-        (_('Status'), {'fields': ('onboarding_complete',)}),
+        (_('Status'), {'fields': ('onboarding_complete', 'hospitalized', 'name_of_hospital', 'close_monitoring')}),
         (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
                                        'groups', 'user_permissions')}),
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
