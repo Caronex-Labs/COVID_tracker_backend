@@ -182,10 +182,10 @@ REST_AUTH_REGISTER_SERIALIZERS = {
 }
 
 # Mandate the need for an Email Address when registering.
-ACCOUNT_EMAIL_REQUIRED = False
+ACCOUNT_EMAIL_REQUIRED = True
 
 # Choose whether to use Email or Username to login. Omit to set as 'username'
-ACCOUNT_AUTHENTICATION_METHOD = 'phone'
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
 
 # Choose if user is logged out after changing password
 LOGOUT_ON_PASSWORD_CHANGE = True

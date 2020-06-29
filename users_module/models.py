@@ -15,23 +15,23 @@ class UserManager(BaseUserManager):
 
     use_in_migrations = True
 
-    def _create_user(self, phone, password, **extra_fields):
+    def _create_user(self, email, password, **extra_fields):
         """Create and save a User with the given email and password."""
-        if not phone:
-            raise ValueError('The given phone must be set')
-        user = self.model(phone=phone, **extra_fields)
+        if not email:
+            raise ValueError('The given email must be set')
+        user = self.model(email=email, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
 
         return user
 
-    def create_user(self, phone, password=None, **extra_fields):
+    def create_user(self, email, password=None, **extra_fields):
         """Create and save a regular User with the given email and password."""
         extra_fields.setdefault('is_staff', False)
         extra_fields.setdefault('is_superuser', False)
-        return self._create_user(phone, password, **extra_fields)
+        return self._create_user(email, password, **extra_fields)
 
-    def create_superuser(self, phone, password, **extra_fields):
+    def create_superuser(self, email, password, **extra_fields):
         """Create and save a SuperUser with the given email and password."""
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
@@ -41,13 +41,30 @@ class UserManager(BaseUserManager):
         if extra_fields.get('is_superuser') is not True:
             raise ValueError('Superuser must have is_superuser=True.')
 
-        return self._create_user(phone, password, **extra_fields)
+        return self._create_user(email, password, **extra_fields)
 
 
 class User(AbstractUser):
     username = None
-    email = None
     user_id = models.AutoField(primary_key=True)
+    email = models.EmailField(unique=True)
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['first_name', 'last_name']
+
+    objects = UserManager()
+
+    def __str__(self):
+        return self.first_name + ' ' + self.last_name
+
+    def is_owner(self, user):
+        return self.email == user.email
+
+
+class Patient(models.Model):
+    patient_id = models.AutoField(primary_key=True)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
     phone = PhoneNumberField(unique=True)
     age = models.IntegerField(blank=True, null=True)
     gender = models.CharField(max_length=100, blank=True, choices=(
@@ -78,7 +95,6 @@ class User(AbstractUser):
     contact_with_positive = models.BooleanField(default=False, null=True)
     contact_date = models.DateField(blank=True, null=True)
     quarantine = models.BooleanField(default=False, null=True)
-    onboarding_complete = models.BooleanField(default=False, null=True)
     test_done = models.BooleanField(default=False)
     report_received = models.BooleanField(default=False)
     covid_test_outcome = models.BooleanField(default=False)
@@ -86,20 +102,9 @@ class User(AbstractUser):
     name_of_hospital = models.CharField(max_length=1000, blank=True)
     close_monitoring = models.BooleanField(default=False)
 
-    USERNAME_FIELD = 'phone'
-    REQUIRED_FIELDS = ['first_name', 'last_name']
-
-    objects = UserManager()
-
-    def __str__(self):
-        return self.first_name + ' ' + self.last_name
-
-    def is_owner(self, user):
-        return self.phone == user.phone
-
 
 class Daily(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='daily_records')
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='daily_records')
     date = models.DateField()
 
     dry_cough = models.BooleanField(default=False)
