@@ -57,6 +57,10 @@ class CustomRegisterSerializer(RegisterSerializer):
             'last_name': self.validated_data.get('last_name', ''),
         }
 
+    def custom_signup(self, request, user):
+        user.phone = self.get_cleaned_data().get("phone")
+        user.save()
+
 
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
