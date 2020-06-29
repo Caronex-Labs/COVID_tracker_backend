@@ -29,8 +29,7 @@ class MeFunctionMixin:
 
             if (request.user.contact_with_positive or
                     request.user.quarantine or
-                    request.user.covid_test_outcome or
-                    request.user.hospitalized):
+                    request.user.covid_test_outcome):
                 user = User.objects.get(user_id=request.user.user_id)
                 user.close_monitoring = True
                 user.save()
