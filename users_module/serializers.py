@@ -45,7 +45,7 @@ class CustomRegisterSerializer(RegisterSerializer):
     last_name = serializers.CharField(max_length=100)
 
     def validate_phone(self, data):
-        if data['phone'] in User.objects.all().values_list('phone', flat=True):
+        if data in User.objects.all().values_list('phone', flat=True):
             raise serializers.ValidationError(_("A user is already registered with this phone number."))
         return data
 
