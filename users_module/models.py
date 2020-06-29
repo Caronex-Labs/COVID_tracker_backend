@@ -56,6 +56,17 @@ class User(AbstractUser):
         ('Other', 'Other'),
         ('Rather not say', 'Rather not say'),
     ), null=True)
+    site = models.CharField(max_length=100, blank=True, choices=(
+        ('Roha', 'Roha'),
+        ('Mahad', 'Mahad'),
+        ('Pune', 'Pune')
+    ))
+    category = models.CharField(max_length=20, blank=True, choices=(
+        ('Employee', 'Employee'),
+        ('Relative', 'Relative')
+    ))
+    relative_patient = models.CharField(max_length=100, blank=True)
+    employee_id = models.CharField(max_length=100, blank=True)
     height = models.IntegerField(blank=True, null=True)
     weight = models.IntegerField(blank=True, null=True)
     blood_pressure = models.BooleanField(default=False, null=True)
@@ -71,6 +82,9 @@ class User(AbstractUser):
     test_done = models.BooleanField(default=False)
     report_received = models.BooleanField(default=False)
     covid_test_outcome = models.BooleanField(default=False)
+    hospitalized = models.BooleanField(default=False)
+    name_of_hospital = models.CharField(max_length=1000, blank=True)
+    close_monitoring = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'phone'
     REQUIRED_FIELDS = ['first_name', 'last_name']
@@ -100,9 +114,10 @@ class Daily(models.Model):
     ageusia = models.BooleanField(default=False)
     diarrhoea = models.BooleanField(default=False)
     diarrhoea_frequency = models.IntegerField(blank=True, null=True)
-    temperature_morning = models.IntegerField(blank=True, null=True)
-    temperature_evening = models.IntegerField(blank=True, null=True)
-    spo2 = models.IntegerField(blank=True, null=True)
+    temperature_morning = models.FloatField(blank=True, null=True)
+    temperature_evening = models.FloatField(blank=True, null=True)
+    spo2_morning = models.IntegerField(blank=True, null=True)
+    spo2_evening = models.IntegerField(blank=True, null=True)
     appetite_level = models.IntegerField(blank=True, null=True)
     abnormal_medical_reports = models.BooleanField(default=False)
     report = models.URLField(blank=True, null=True)
