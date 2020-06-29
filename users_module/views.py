@@ -26,6 +26,19 @@ class MeFunctionMixin:
             data = serializer(request.user, request.data, partial=True)
             data.is_valid(raise_exception=True)
             data.save()
+
+            if (request.user.contact_with_positive or
+                    request.user.quarantine or
+                    request.user.covid_test_outcome or
+                    request.user.hospitalized):
+                user = User.objects.get(user_id=request.user.user_id)
+                user.close_monitoring = True
+                user.save()
+            else:
+                user = User.objects.get(user_id=request.user.user_id)
+                user.close_monitoring = False
+                user.save()
+
         return Response({'message': "User updated"}, status=200)
 
 
@@ -63,6 +76,22 @@ class UserViewSet(MeFunctionMixin, GenericViewSet):
                 data = serializer(report[0], data=request.data, partial=True)
                 data.is_valid(raise_exception=True)
                 data.save()
+
+                report = report[0]
+
+                if report.dry_cough or report.sore_throat or report.body_ache or report.head_ache or \
+                        report.weakness or \
+                        report.anosmia or report.ageusia or report.diarrhoea or (
+                        report.temperature_evening > 98.5) or (report.temperature_morning > 98.5) or (
+                        report.spo2_evening <= 95) or (report.spo2_morning <= 95) or report.difficulty_breathing:
+                    user = User.objects.get(user_id=report.user.user_id)
+                    user.close_monitoring = True
+                    user.save()
+                else:
+                    user = User.objects.get(user_id=report.user.user_id)
+                    user.close_monitoring = False
+                    user.save()
+
                 return Response({"message": "daily report saved"}, status=200)
             except Exception as e:
                 print(e)
@@ -92,4 +121,3 @@ class UserViewSet(MeFunctionMixin, GenericViewSet):
         user = self.get_object()
         data = serializer(user).data
         return Response(data, status=200)
-
