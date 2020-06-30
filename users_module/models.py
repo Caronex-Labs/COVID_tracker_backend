@@ -125,5 +125,4 @@ class Daily(models.Model):
     spo2_evening = models.IntegerField(blank=True, null=True)
     appetite_level = models.IntegerField(blank=True, null=True)
     abnormal_medical_reports = models.BooleanField(default=False)
-    report = models.URLField(blank=True, null=True)
     difficulty_breathing = models.BooleanField(default=False)

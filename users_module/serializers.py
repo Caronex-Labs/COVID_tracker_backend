@@ -2,9 +2,10 @@ from django.contrib.auth import get_user_model
 from rest_auth.registration.serializers import RegisterSerializer
 from rest_auth.serializers import LoginSerializer
 from rest_framework import serializers
-
 # Uncomment the following serializers to set up custom serializers for login and registration. You will also have to
 # uncomment lines in the settings.py file in order to use custom serializers.
+from rest_framework.fields import SerializerMethodField
+
 from users_module.models import User, Daily, Patient
 
 UserModel = get_user_model()
@@ -53,9 +54,13 @@ class PatientDailySerializer(serializers.ModelSerializer):
 
 
 class PatientDetailSerializer(serializers.ModelSerializer):
-    daily_records = PatientDailySerializer(many=True, read_only=True)
+    daily_records = SerializerMethodField(read_only=True)
 
     class Meta:
         model = Patient
         fields = '__all__'
         read_only_fields = ['patient_id']
+
+    def get_daily_records(self, instance):
+        records = instance.daily_records.all().order_by('-date')
+        return PatientDailySerializer(records, many=True).data
