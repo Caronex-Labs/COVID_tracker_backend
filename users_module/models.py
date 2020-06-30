@@ -101,6 +101,8 @@ class Patient(models.Model):
     hospitalized = models.BooleanField(default=False)
     name_of_hospital = models.CharField(max_length=1000, blank=True)
     close_monitoring = models.BooleanField(default=False)
+    hr_comment = models.TextField(blank=True)
+    doctor_comment = models.TextField(blank=True)
 
 
 class Daily(models.Model):
@@ -126,3 +128,10 @@ class Daily(models.Model):
     appetite_level = models.IntegerField(blank=True, null=True)
     abnormal_medical_reports = models.BooleanField(default=False)
     difficulty_breathing = models.BooleanField(default=False)
+
+
+class CloseContacts(models.Model):
+    patient = models.ForeignKey(Patient, on_delete=models.PROTECT)
+    name = models.CharField(max_length=100)
+    age = models.IntegerField()
+    relation = models.CharField(max_length=100)
