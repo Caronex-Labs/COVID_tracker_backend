@@ -36,7 +36,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
         model = User
         exclude = ['password']
         read_only_fields = ['email', 'user_id', 'is_superuser', 'is_staff', 'is_active', 'date_joined', 'last_login',
-                            'groups', 'user_permissions']
+                            'groups', 'user_permissions', 'is_doctor']
 
 
 class PatientProfileSerializer(serializers.ModelSerializer):

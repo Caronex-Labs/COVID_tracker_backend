@@ -48,6 +48,7 @@ class User(AbstractUser):
     username = None
     user_id = models.AutoField(primary_key=True)
     email = models.EmailField(unique=True)
+    is_doctor = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name']
