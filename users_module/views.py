@@ -92,9 +92,9 @@ class PatientViewSet(GenericViewSet):
         serializer_data.is_valid(raise_exception=True)
         patient = serializer_data.save()
 
-        if (patient.contact_with_positive or
-                patient.quarantine or
-                patient.covid_test_outcome):
+        if ((patient.contact_with_positive or
+             patient.quarantine or
+             patient.covid_test_outcome) and not patient.hospitalized):
             patient = Patient.objects.get(patient_id=patient.patient_id)
             patient.close_monitoring = True
             patient.save()
@@ -108,7 +108,8 @@ class PatientViewSet(GenericViewSet):
     @action(methods=['patch'], detail=True)
     def daily(self, request, **kwargs):
         try:
-            report = Daily.objects.get_or_create(patient=Patient.objects.get(patient_id=kwargs['patient_id']), date=date.today())
+            report = Daily.objects.get_or_create(patient=Patient.objects.get(patient_id=kwargs['patient_id']),
+                                                 date=date.today())
             serializer = self.get_serializer_class()
             data = serializer(report[0], data=request.data, partial=True)
             data.is_valid(raise_exception=True)
