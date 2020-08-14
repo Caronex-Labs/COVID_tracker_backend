@@ -1,6 +1,7 @@
 # Create your views here.
 from datetime import date
 
+from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -20,14 +21,14 @@ class MeFunctionMixin:
 
         if request.method == 'GET':
             data = serializer(request.user).data
-            return Response(data, status=200)
+            return Response(data, status=status.HTTP_200_OK)
 
         elif request.method == 'PATCH':
             data = serializer(request.user, request.data, partial=True)
             data.is_valid(raise_exception=True)
             data.save()
 
-        return Response({'message': "User updated"}, status=200)
+        return Response({'message': "User updated"}, status=status.HTTP_200_OK)
 
 
 UserViewSetSerializers = {
@@ -67,7 +68,7 @@ class PatientViewSet(GenericViewSet):
         serializer = self.get_serializer_class()
         patients = Patient.objects.filter()
         serializer_data = serializer(patients, many=True).data
-        return Response(serializer_data, status=200)
+        return Response(serializer_data, status=status.HTTP_200_OK)
 
     @action(methods=['get', 'patch'], detail=True)
     def info(self, request, **kwargs):
@@ -75,7 +76,7 @@ class PatientViewSet(GenericViewSet):
             serializer = self.get_serializer_class()
             user = self.get_object()
             serializer_data = serializer(user).data
-            return Response(serializer_data, status=200)
+            return Response(serializer_data, status=status.HTTP_200_OK)
 
         if request.method == 'PATCH':
             serializer = self.get_serializer_class()
@@ -83,7 +84,7 @@ class PatientViewSet(GenericViewSet):
             data = serializer(patient, request.data, partial=True)
             data.is_valid(raise_exception=True)
             data.save()
-            return Response({'message': "Patient updated"}, status=200)
+            return Response({'message': "Patient updated"}, status=status.HTTP_200_OK)
 
     @action(methods=['post'], detail=False)
     def add(self, request):
@@ -103,7 +104,8 @@ class PatientViewSet(GenericViewSet):
             user.close_monitoring = False
             user.save()
 
-        return Response({"message": "Patient record created", "patient_id": patient.patient_id}, status=201)
+        return Response({"message": "Patient record created", "patient_id": patient.patient_id},
+                        status=status.HTTP_201_CREATED)
 
     @action(methods=['patch'], detail=True)
     def daily(self, request, **kwargs):
@@ -130,7 +132,7 @@ class PatientViewSet(GenericViewSet):
                 user.close_monitoring = False
                 user.save()
 
-            return Response({"message": "daily report saved"}, status=200)
+            return Response({"message": "daily report saved"}, status=status.HTTP_200_OK)
         except Exception as e:
             print(e)
-            return Response({'message': "Error creating daily report"}, status=400)
+            return Response({'message': "Error creating daily report"}, status=status.HTTP_400_BAD_REQUEST)
