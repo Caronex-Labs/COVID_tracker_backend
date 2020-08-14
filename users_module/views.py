@@ -14,6 +14,10 @@ from users_module.serializers import PatientProfileSerializer, \
 
 
 class MeFunctionMixin:
+    """
+    A mixin to provide the current users profile.
+    """
+
     @action(methods=['get', 'patch'], detail=False, permission_classes=[IsAuthenticated, IsOwner])
     def profile(self, request):
 
@@ -31,37 +35,39 @@ class MeFunctionMixin:
         return Response({'message': "User updated"}, status=status.HTTP_200_OK)
 
 
-UserViewSetSerializers = {
-    'profile': UserProfileSerializer,
-}
-
-
 class UserViewSet(MeFunctionMixin, GenericViewSet):
+    """
+    Contains endpoints pertaining to the current user.
+    """
     lookup_field = 'user_id'
     permission_classes = [IsAuthenticated]
+    UserViewSetSerializers = {
+        'profile': UserProfileSerializer,
+    }
 
     queryset = User.objects.all()
 
     def get_serializer_class(self):
-        return UserViewSetSerializers.get(self.action)
-
-
-PatientViewSetSerializers = {
-    'all': PatientProfileSerializer,
-    'info': PatientDetailSerializer,
-    'add': PatientProfileSerializer,
-    'daily': PatientDailySerializer
-}
+        return self.UserViewSetSerializers.get(self.action)
 
 
 class PatientViewSet(GenericViewSet):
+    """
+    Contains endpoints pertaining to the patients
+    """
     lookup_field = 'patient_id'
     permission_classes = [IsAuthenticated, IsStaff]
+    PatientViewSetSerializers = {
+        'all': PatientProfileSerializer,
+        'info': PatientDetailSerializer,
+        'add': PatientProfileSerializer,
+        'daily': PatientDailySerializer
+    }
 
     queryset = Patient.objects.all()
 
     def get_serializer_class(self):
-        return PatientViewSetSerializers.get(self.action)
+        return self.PatientViewSetSerializers.get(self.action)
 
     @action(methods=['get'], detail=False)
     def all(self, request):

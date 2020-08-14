@@ -45,6 +45,9 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractUser):
+    """
+    User Model
+    """
     username = None
     user_id = models.AutoField(primary_key=True)
     email = models.EmailField(unique=True)
@@ -63,6 +66,9 @@ class User(AbstractUser):
 
 
 class Patient(models.Model):
+    """
+    Patient Model
+    """
     patient_id = models.AutoField(primary_key=True)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
@@ -107,6 +113,9 @@ class Patient(models.Model):
 
 
 class Daily(models.Model):
+    """
+    Model containing daily reports for patients
+    """
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='daily_records')
     date = models.DateField()
 
@@ -132,6 +141,9 @@ class Daily(models.Model):
 
 
 class CloseContacts(models.Model):
+    """
+    Model containing primary contacts of reported patients
+    """
     patient = models.ForeignKey(Patient, on_delete=models.PROTECT)
     name = models.CharField(max_length=100)
     age = models.IntegerField()

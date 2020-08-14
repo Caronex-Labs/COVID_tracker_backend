@@ -12,12 +12,18 @@ UserModel = get_user_model()
 
 
 class CustomLoginSerializer(LoginSerializer):
+    """
+    Custom Login Serializer to override rest_auth's inbuilt login serializer
+    """
     username = None
     email = serializers.EmailField(required=True)
     password = serializers.CharField(style={'input_type': 'password'})
 
 
 class CustomRegisterSerializer(RegisterSerializer):
+    """
+    Custom Register Serializer to override rest_auth's inbuilt register serializer
+    """
     username = None
     first_name = serializers.CharField(max_length=100)
     last_name = serializers.CharField(max_length=100)
@@ -40,6 +46,10 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
 
 class PatientProfileSerializer(serializers.ModelSerializer):
+    """
+    Patients Profile Serializer
+    """
+
     class Meta:
         model = Patient
         fields = '__all__'
@@ -47,6 +57,10 @@ class PatientProfileSerializer(serializers.ModelSerializer):
 
 
 class PatientDailySerializer(serializers.ModelSerializer):
+    """
+    Patients Daily Report Serializer
+    """
+
     class Meta:
         model = Daily
         exclude = ['patient']
@@ -54,6 +68,9 @@ class PatientDailySerializer(serializers.ModelSerializer):
 
 
 class PatientDetailSerializer(serializers.ModelSerializer):
+    """
+    Patients Details Serializer
+    """
     daily_records = SerializerMethodField(read_only=True)
 
     class Meta:
