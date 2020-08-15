@@ -199,8 +199,8 @@ ACCOUNT_USERNAME_REQUIRED = False
 # Choose whether old password needs to be entered when changing password
 OLD_PASSWORD_FIELD_ENABLED = True
 
-# Choose whether email verification is required before login is allowed. Other options are: 'optional' ,
-ACCOUNT_EMAIL_VERIFICATION = "none"
+# Choose whether email verification is required before login is allowed. Other options are: 'optional' , 'none'
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 
 # Ensure that the following two settings point to the frontend's Login route. This is to redirect the user after
 # successful email confirmations and such.

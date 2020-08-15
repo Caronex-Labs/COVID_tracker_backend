@@ -1,8 +1,8 @@
-from rest_framework.test import APITestCase
 from django.urls import reverse
+from rest_framework.test import APITestCase
+
 
 class TestSetUp(APITestCase):
-
 
     def setUp(self):
         self.register_url = reverse('rest_register')
@@ -18,5 +18,4 @@ class TestSetUp(APITestCase):
         return super(TestSetUp, self).setUp()
 
     def tearDown(self):
-
         return super(TestSetUp, self).tearDown()
