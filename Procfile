@@ -1,1 +1,0 @@
-web: gunicorn sudarshan_care_backend.wsgi
