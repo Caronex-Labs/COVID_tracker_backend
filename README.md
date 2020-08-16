@@ -1,4 +1,5 @@
 # COVID-19 Patient Tracker
+![Django CI](https://github.com/Caronex-Labs/COVID_tracker_backend/workflows/Django%20CI/badge.svg?branch=master)
 
 > A platform that enables HR Teams and Medical Teams to keep track of patients and their immediate contacts. To be used by organizations and factories trying to work through the pandemic.
 
