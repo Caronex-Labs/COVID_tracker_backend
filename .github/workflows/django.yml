@@ -30,5 +30,3 @@ jobs:
         DJANGO_SECRET_KEY: 'TEST_KEY_FOR_CICD'
       run: |
         python manage.py test
-    - name: Django Security Check
-      uses: victoriadrake/django-security-check@v1.0.0
