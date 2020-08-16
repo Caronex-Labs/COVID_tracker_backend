@@ -71,13 +71,36 @@ class PatientViewSet(GenericViewSet):
 
     @action(methods=['get'], detail=False)
     def all(self, request):
+        """
+        Description: An endpoint to return a list of all patients currently on the platform.
+
+        Request Method: GET
+        Request Body: Empty
+        Request Params: Empty
+        Response Body: [ { patient_info } ]
+
+        """
         serializer = self.get_serializer_class()
-        patients = Patient.objects.filter()
+        patients = Patient.objects.all()
         serializer_data = serializer(patients, many=True).data
         return Response(serializer_data, status=status.HTTP_200_OK)
 
     @action(methods=['get', 'patch'], detail=True)
     def info(self, request, **kwargs):
+        """
+        Description: An endpoint to retrieve a particular patients information and to update it.
+
+        Request Method: GET
+        Request Body: Empty
+        Request Params: patient_id
+        Response Body: { patient_info }
+
+        Request Method: PATCH
+        Request Body: { patient data to be updated }
+        Request Params: patient_id
+        Response Body: { message }
+
+        """
         if request.method == 'GET':
             serializer = self.get_serializer_class()
             user = self.get_object()
@@ -94,6 +117,14 @@ class PatientViewSet(GenericViewSet):
 
     @action(methods=['post'], detail=False)
     def add(self, request):
+        """
+        Description: This endpoint allows users to add a new patient to the system.
+
+        Request Method: POST
+        Request Body: { patient_info }
+        Request Params: None
+        Response Body: { message }
+        """
         serializer = self.get_serializer_class()
         serializer_data = serializer(data=request.data)
         serializer_data.is_valid(raise_exception=True)
@@ -115,6 +146,14 @@ class PatientViewSet(GenericViewSet):
 
     @action(methods=['patch'], detail=True)
     def daily(self, request, **kwargs):
+        """
+        Description: This endpoint allows users to make a new daily report for a given patient.
+
+        Request Method: PATCH
+        Request Body: { daily_report }
+        Request Params: patient_id
+        Response Body: { message }
+        """
         try:
             report = Daily.objects.get_or_create(patient=Patient.objects.get(patient_id=kwargs['patient_id']),
                                                  date=date.today())
