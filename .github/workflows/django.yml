@@ -27,8 +27,6 @@ jobs:
         pip install -r requirements.txt
     - name: Run Tests
       env:
-        DJANGO_SECRET_KEY: TEST_SECRET_KEY 
+        DJANGO_SECRET_KEY: 'TEST_KEY_FOR_CICD'
       run: |
         python manage.py test
-    - name: Django Security Check
-      uses: victoriadrake/django-security-check@v1.0.0
