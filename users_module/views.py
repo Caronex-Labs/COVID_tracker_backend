@@ -3,6 +3,7 @@ from datetime import date
 
 from rest_framework import status
 from rest_framework.decorators import action
+from rest_framework.mixins import ListModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
@@ -51,7 +52,7 @@ class UserViewSet(MeFunctionMixin, GenericViewSet):
         return self.UserViewSetSerializers.get(self.action)
 
 
-class PatientViewSet(GenericViewSet):
+class PatientViewSet(ListModelMixin, GenericViewSet):
     """
     Contains endpoints pertaining to the patients
     """
@@ -65,25 +66,21 @@ class PatientViewSet(GenericViewSet):
     }
 
     queryset = Patient.objects.all()
+    filterset_fields = ['gender', 'site', 'category', 'quarantine', 'covid_test_outcome', 'hospitalized',
+                        'close_monitoring']
 
     def get_serializer_class(self):
         return self.PatientViewSetSerializers.get(self.action)
 
-    @action(methods=['get'], detail=False)
-    def all(self, request):
-        """
-        Description: An endpoint to return a list of all patients currently on the platform.
+    """
+    Description: An endpoint to return a list of all patients currently on the platform.
 
-        Request Method: GET
-        Request Body: Empty
-        Request Params: Empty
-        Response Body: [ { patient_info } ]
+    Request Method: GET
+    Request Body: Empty
+    Request Params: Empty
+    Response Body: [ { patient_info } ]
 
-        """
-        serializer = self.get_serializer_class()
-        patients = Patient.objects.all()
-        serializer_data = serializer(patients, many=True).data
-        return Response(serializer_data, status=status.HTTP_200_OK)
+    """
 
     @action(methods=['get', 'patch'], detail=True)
     def info(self, request, **kwargs):
